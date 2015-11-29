@@ -1,6 +1,6 @@
 #include <RC5.h>
 
-#define IR_PIN        2 
+#define IR_PIN        A7 
 #define RELAY_1_PIN   3 
 #define RELAY_2_PIN   4
 #define baudrate      9600
@@ -34,13 +34,19 @@ void loop(){
     Serial.print("\nTest ");
     Serial.print(ir_command);
     if (ir_command == COMMAND_FOR_RELAY_1){
-      relay_toogle(RELAY_1_PIN);
       ir_command = 0;
+      relay_toogle(RELAY_1_PIN);
+      Serial.write("Odebrana komenda: ");
+      Serial.write(COMMAND_FOR_RELAY_1);
+      Serial.write("\n" );
       delay(ir_delay);
     }
     if (ir_command == COMMAND_FOR_RELAY_2){
-      relay_toogle(RELAY_2_PIN);
       ir_command = 0;
+      relay_toogle(RELAY_2_PIN);
+      Serial.write("Odebrana komenda: ");
+      Serial.write(COMMAND_FOR_RELAY_2);
+      Serial.write("\n" );
       delay(ir_delay);
     }
   }
