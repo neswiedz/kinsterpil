@@ -1,12 +1,12 @@
 #include <RC5.h>
 
-#define IR_PIN        A7 
-#define RELAY_1_PIN   3 
+#define IR_PIN        2
+#define RELAY_1_PIN   3
 #define RELAY_2_PIN   4
 #define baudrate      9600
 
-#define COMMAND_FOR_RELAY_1 5
-#define COMMAND_FOR_RELAY_2 9
+#define COMMAND_FOR_RELAY_1 13
+#define COMMAND_FOR_RELAY_2 13 //nieuzywany rugi kanal 
 
 void relay_on(int relay_pin);
 void relay_off(int relay_pin);
@@ -21,24 +21,21 @@ RC5 rc5(IR_PIN);
   
 void setup() {
   Serial.begin(baudrate);
-  digitalWrite(RELAY_1_PIN,HIGH);
-  digitalWrite(RELAY_2_PIN,HIGH);
+  digitalWrite(RELAY_1_PIN,LOW);
+  digitalWrite(RELAY_2_PIN,LOW);
   pinMode(RELAY_1_PIN, OUTPUT);
   pinMode(RELAY_2_PIN, OUTPUT);
   pinMode(IR_PIN, INPUT);
-
 }
 
 void loop(){
   if(rc5.read(&ir_toggle, &ir_address, &ir_command)){
-    Serial.print("\nTest ");
     Serial.print(ir_command);
     if (ir_command == COMMAND_FOR_RELAY_1){
       ir_command = 0;
       relay_toogle(RELAY_1_PIN);
-      Serial.write("Odebrana komenda: ");
+      Serial.write("\nOdebrana komenda: ");
       Serial.write(COMMAND_FOR_RELAY_1);
-      Serial.write("\n" );
       delay(ir_delay);
     }
     if (ir_command == COMMAND_FOR_RELAY_2){
